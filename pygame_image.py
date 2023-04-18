@@ -20,13 +20,11 @@ def main():
             if event.type == pg.QUIT: return
 
         tmr += 1
-        screen.blit(bg_img, [0, 0])
+        screen.blit(bg_img, [(-tmr)%1600-1600, 0])
+        screen.blit(bg_img,[-tmr%1600,0])
         #こうかとんを貼り付ける
         #タイムステップに応じて交互に表示させる
-        if tmr % 2 == 0:
-            screen.blit(kk_imgs[0], [300,200])
-        elif tmr % 2 == 1:
-            screen.blit(kk_imgs[1],[300,200])
+        screen.blit(kk_imgs[tmr%2], [300,200])
 
         pg.display.update()
         clock.tick(100)
