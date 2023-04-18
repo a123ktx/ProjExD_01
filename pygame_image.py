@@ -3,28 +3,32 @@ import sys
 
 def main():
     pg.display.set_caption("はばたけ！こうかとん")
-    screen = pg.display.set_mode((1600, 900))
+    screen = pg.display.set_mode((800, 600))
     # scr = pg.display.get_surface()
     clock  = pg.time.Clock()
     bg_img = pg.image.load("ex01/fig/pg_bg.jpg")
-    #こうかとんの情報
-    kk_img1 = pg.image.load("ex01/fig/3.png")
-    kk_img1 = pg.transform.flip(kk_img1, True, False)
-    kk_img2 = pg.transform.rotozoom(kk_img1, 10, 1.0)
-    kk_imgs = [kk_img1, kk_img2]
+    bg_img2 = pg.transform.flip(bg_img, True, False)
 
     tmr = 0
+    angle = 0
+    v = -1
 
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: return
-
+        angle += v
+        if tmr % 10 == 0:
+            v *= -1
         tmr += 1
-        screen.blit(bg_img, [(-tmr)%1600-1600, 0])
-        screen.blit(bg_img,[-tmr%1600,0])
+        screen.blit(bg_img, [(-tmr)%3200-3200, 0])
+        screen.blit(bg_img2,[-tmr%3200-1600,0])
+        screen.blit(bg_img, [(-tmr)%3200, 0])
         #こうかとんを貼り付ける
-        #タイムステップに応じて交互に表示させる
-        screen.blit(kk_imgs[tmr%2], [300,200])
+        #なめらかに動かす
+        kk_img = pg.image.load("ex01/fig/3.png")
+        kk_img = pg.transform.flip(kk_img, True, False)
+        kk_img = pg.transform.rotozoom(kk_img, angle, 1.0)
+        screen.blit(kk_img, [300,200])
 
         pg.display.update()
         clock.tick(100)
